@@ -45,8 +45,3 @@ The system stores:
 - Java Marks
 - DSA Marks
 
-## Author
-
-**Vaishnavi**
-
-BCA Student | Java Full Stack Developer
