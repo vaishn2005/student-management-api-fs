@@ -1,0 +1,326 @@
+Base URL:
+
+http://localhost:5000
+
+The API currently provides the following five CRUD endpoints:
+
+HTTP Method	Endpoint	Purpose
+POST	/students	Create a new student
+GET	/students	Get all students
+GET	/students/:id	Get one student
+PUT	/students/:id	Update a student
+DELETE	/students/:id	Delete a student
+1. Create a Student
+Endpoint
+POST /students
+Purpose
+
+Creates a new student and saves the student in MongoDB.
+
+Parameters
+
+None.
+
+Request Body
+
+JSON:
+
+{
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "age": 21,
+  "course": "Computer Science"
+}
+Required Fields
+
+All four fields are required:
+
+name — String
+email — String
+age — Number
+course — String
+
+The email must also be unique according to the Mongoose model.
+
+Example Request
+POST http://localhost:5000/students
+{
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "age": 21,
+  "course": "Computer Science"
+}
+Success Response
+
+HTTP Status: 201 Created
+
+Returns the newly created student.
+
+{
+  "_id": "68d123abc456",
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "age": 21,
+  "course": "Computer Science"
+}
+Error Response
+
+HTTP Status: 400 Bad Request
+
+{
+  "message": "Failed to create student",
+  "error": "..."
+}
+2. Get All Students
+Endpoint
+GET /students
+Purpose
+
+Retrieves all students from MongoDB.
+
+Parameters
+
+None.
+
+Request Body
+
+None.
+
+Required Fields
+
+None.
+
+Example Request
+GET http://localhost:5000/students
+Success Response
+
+HTTP Status: 200 OK
+
+[
+  {
+    "_id": "68d123abc456",
+    "name": "Rahul",
+    "email": "rahul@gmail.com",
+    "age": 21,
+    "course": "Computer Science"
+  },
+  {
+    "_id": "68d123abc789",
+    "name": "Priya",
+    "email": "priya@gmail.com",
+    "age": 22,
+    "course": "MCA"
+  }
+]
+
+If there are no students:
+
+[]
+Error Response
+
+HTTP Status: 500 Internal Server Error
+
+{
+  "message": "Failed to fetch students",
+  "error": "..."
+}
+3. Get Student by ID
+Endpoint
+GET /students/:id
+Purpose
+
+Retrieves one student using the student's MongoDB ID.
+
+Parameters
+
+Path parameter:
+
+id
+
+Example:
+
+GET /students/68d123abc456
+Request Body
+
+None.
+
+Required Fields
+
+The id path parameter is required.
+
+Example Request
+GET http://localhost:5000/students/68d123abc456
+Success Response
+
+HTTP Status: 200 OK
+
+{
+  "_id": "68d123abc456",
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "age": 21,
+  "course": "Computer Science"
+}
+Error Responses
+
+If the student does not exist:
+
+HTTP Status: 404 Not Found
+
+{
+  "message": "Student not found"
+}
+
+For other errors:
+
+HTTP Status: 500 Internal Server Error
+
+{
+  "message": "Failed to fetch student",
+  "error": "..."
+}
+4. Update Student
+Endpoint
+PUT /students/:id
+Purpose
+
+Updates an existing student using the student's MongoDB ID.
+
+Parameters
+
+Path parameter:
+
+id
+
+Example:
+
+PUT /students/68d123abc456
+Request Body
+
+Student data is received through req.body.
+
+Example:
+
+{
+  "name": "Rahul Kumar",
+  "email": "rahul@gmail.com",
+  "age": 22,
+  "course": "MCA"
+}
+Required Fields
+
+The Student schema has these fields as required:
+
+name
+email
+age
+course
+
+The update code also enables Mongoose schema validation with runValidators: true.
+
+Example Request
+PUT http://localhost:5000/students/68d123abc456
+{
+  "name": "Rahul Kumar",
+  "email": "rahul@gmail.com",
+  "age": 22,
+  "course": "MCA"
+}
+Success Response
+
+HTTP Status: 200 OK
+
+{
+  "_id": "68d123abc456",
+  "name": "Rahul Kumar",
+  "email": "rahul@gmail.com",
+  "age": 22,
+  "course": "MCA"
+}
+Error Responses
+
+If the student does not exist:
+
+HTTP Status: 404 Not Found
+
+{
+  "message": "Student not found"
+}
+
+For update errors:
+
+HTTP Status: 400 Bad Request
+
+{
+  "message": "Failed to update student",
+  "error": "..."
+}
+5. Delete Student
+Endpoint
+DELETE /students/:id
+Purpose
+
+Deletes a student from MongoDB using the student's ID.
+
+Parameters
+
+Path parameter:
+
+id
+
+Example:
+
+DELETE /students/68d123abc456
+Request Body
+
+None.
+
+Required Fields
+
+The id path parameter is required.
+
+Example Request
+DELETE http://localhost:5000/students/68d123abc456
+Success Response
+
+HTTP Status: 200 OK
+
+The API returns a success message and the deleted student:
+
+{
+  "message": "Student deleted successfully",
+  "student": {
+    "_id": "68d123abc456",
+    "name": "Rahul",
+    "email": "rahul@gmail.com",
+    "age": 21,
+    "course": "Computer Science"
+  }
+}
+Error Responses
+
+If the student does not exist:
+
+HTTP Status: 404 Not Found
+
+{
+  "message": "Student not found"
+}
+
+For other errors:
+
+HTTP Status: 400 Bad Request
+
+{
+  "message": "Failed to delete student",
+  "error": "..."
+}
+CRUD Summary
+Operation	Method	Endpoint	Success Status
+Create	POST	/students	201 Created
+Read all	GET	/students	200 OK
+Read one	GET	/students/:id	200 OK
+Update	PUT	/students/:id	200 OK
+Delete	DELETE	/students/:id	200 OK
+
+These are the five CRUD endpoints currently implemented in your Student Management API.
